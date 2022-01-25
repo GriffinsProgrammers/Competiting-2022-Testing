@@ -26,15 +26,22 @@ import com.revrobotics.ColorMatch;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends TimedRobot {
-  private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
-  private String m_autoSelected;
-  private Command m_autonomousCommand;
+public class ColorSensing extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
-  
+  private final I2C.Port i2cPort = I2C.Port.kOnboard;
+  private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
+  private final ColorMatch m_colorMatcher = new ColorMatch();
 
-  private RobotContainer rCon;
+  private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
+  private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
+  private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
+  private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
+  private final Color kCorrectColor = ColorMatch.makeColor(0.000,0.000,0.000);
+  private final Color kLeftColor = ColorMatch.makeColor(0.000,0.000,0.000);
+  private final Color kRightColor = ColorMatch.makeColor(0.000,0.000,0.000);
+  double distanceFromLine;
+
+  private ColorSensingContainer rCon;
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   /**
@@ -42,13 +49,20 @@ public class Robot extends TimedRobot {
    * for any initialization code.
    */
   @Override
-  public void robotInit() {
+  public void colorSensingInit() {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+    m_colorMatcher.addColorMatch(kBlueTarget);
+    m_colorMatcher.addColorMatch(kGreenTarget);
+    m_colorMatcher.addColorMatch(kRedTarget);
+    m_colorMatcher.addColorMatch(kYellowTarget);
+    m_colorMatcher.addColorMatch(kCorrectColor);
+    m_colorMatcher.addColorMatch(kLeftColor);
+    m_colorMatcher.addColorMatch(kRightColor);  
     rCon = new RobotContainer();
     //SmartDashboard.putData("Auto choices", autoChooser);
     //SmartDashboard.putNumber("Auto Wait Time", 0);
@@ -64,7 +78,7 @@ public class Robot extends TimedRobot {
    * and SmartDashboard integrated updating.
    */
   @Override
-  public void robotPeriodic() {
+  public void colorSensingPeriodic() {
     // Runs the Scheduler. This is responsible for polling buttons, adding
     // newly-scheduled
     // commands, running already-scheduled commands, removing finished or
@@ -72,9 +86,33 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods. This must be called from the
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
-   
+    Color detectedColor = m_colorSensor.getColor();
 
-   
+    String colorString;
+    ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
+
+    if (match.color == kBlueTarget) {
+      colorString = "Blue";
+    } else if (match.color == kRedTarget) {
+      colorString = "Red";
+    } else if (match.color == kGreenTarget) {
+      colorString = "Green";
+    } else if (match.color == kYellowTarget) {
+      colorString = "Yellow";
+    } else if (match.color == kCorrectColor) {
+      distanceFromLine = 0.5;
+    } else if (match.color == kLeftColor) {
+      distanceFromLine = 0.0;
+    } else if (match.color == kRightColor) {
+      distanceFromLine = 1.0;
+    } else {
+      colorString = "Unknown";
+    }
+    SmartDashboard.putNumber("Red", detectedColor.red);
+    SmartDashboard.putNumber("Green", detectedColor.green);
+    SmartDashboard.putNumber("Blue", detectedColor.blue);
+    SmartDashboard.putNumber("Confidence", match.confidence);
+    SmartDashboard.putString("Detected Color", colorString);
     CommandScheduler.getInstance().run();
   }
 
