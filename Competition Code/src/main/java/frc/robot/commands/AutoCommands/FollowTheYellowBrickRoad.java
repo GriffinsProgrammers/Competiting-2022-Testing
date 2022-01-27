@@ -33,9 +33,9 @@ public class FollowTheYellowBrickRoad extends CommandBase {
   public void execute() {
     if (c1.getDistanceFromLine() == 0.5)
     {
-      LFMotor.set(1);
+      LFMotor.set(0.5);
       RFMotor.set(1);
-      LBMotor.set(1);
+      LBMotor.set(0.5);
       RBMotor.set(1);
     }
     else if (c1.getDistanceFromLine() == 0.0)
@@ -44,13 +44,6 @@ public class FollowTheYellowBrickRoad extends CommandBase {
       RFMotor.set(0.5);
       LBMotor.set(1);
       RBMotor.set(0.5);
-    }
-    else if (c1.getDistanceFromLine() == 1.0)
-    {
-      LFMotor.set(0.5);
-      RFMotor.set(1);
-      LBMotor.set(0.5);
-      RBMotor.set(1);
     }
     
 

@@ -100,8 +100,6 @@ public class ColorSensing extends TimedRobot {
       distanceFromLine = 0.5;
     } else if (match.color == kLeftColor) {
       distanceFromLine = 0.0;
-    } else if (match.color == kRightColor) {
-      distanceFromLine = 1.0;
     } else {
       colorString = "Unknown";
     }
