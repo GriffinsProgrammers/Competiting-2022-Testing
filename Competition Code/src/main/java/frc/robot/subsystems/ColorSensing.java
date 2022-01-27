@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot;
+package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -41,20 +41,18 @@ public class ColorSensing extends TimedRobot {
   private final Color kRightColor = ColorMatch.makeColor(0.000,0.000,0.000);
   double distanceFromLine;
 
-  private ColorSensingContainer rCon;
+  //private ColorSensingContainer rCon;
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
    */
-  @Override
+  
   public void colorSensingInit() {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
     m_colorMatcher.addColorMatch(kBlueTarget);
     m_colorMatcher.addColorMatch(kGreenTarget);
@@ -63,7 +61,6 @@ public class ColorSensing extends TimedRobot {
     m_colorMatcher.addColorMatch(kCorrectColor);
     m_colorMatcher.addColorMatch(kLeftColor);
     m_colorMatcher.addColorMatch(kRightColor);  
-    rCon = new RobotContainer();
     //SmartDashboard.putData("Auto choices", autoChooser);
     //SmartDashboard.putNumber("Auto Wait Time", 0);
   }
@@ -77,7 +74,7 @@ public class ColorSensing extends TimedRobot {
    * This runs after the mode specific periodic functions, but before LiveWindow
    * and SmartDashboard integrated updating.
    */
-  @Override
+ 
   public void colorSensingPeriodic() {
     // Runs the Scheduler. This is responsible for polling buttons, adding
     // newly-scheduled
@@ -88,7 +85,7 @@ public class ColorSensing extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     Color detectedColor = m_colorSensor.getColor();
 
-    String colorString;
+    String colorString = "";
     ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
 
     if (match.color == kBlueTarget) {
@@ -116,6 +113,10 @@ public class ColorSensing extends TimedRobot {
     CommandScheduler.getInstance().run();
   }
 
+  public double getDistanceFromLine()
+  {
+    return distanceFromLine;
+  }
   /**
    * This function is called once each time the robot enters Disabled mode.
    */
@@ -133,17 +134,13 @@ public class ColorSensing extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autoSelected = m_chooser.getSelected();
-    System.out.println("Auto selected: " + m_autoSelected);
+
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    m_autonomousCommand = autoChooser.getSelected();
+ 
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      // adds time out of value on drivers station, returns 0 if no value found
-      Command timeOutAuto = m_autonomousCommand.withTimeout(SmartDashboard.getNumber("Auto Wait Time", 0));
-      timeOutAuto.schedule();
-    }
+    
+    
   }
 
   /**
@@ -159,9 +156,7 @@ public class ColorSensing extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
-    }
+    
   }
 
   /**

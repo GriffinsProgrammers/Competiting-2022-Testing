@@ -38,7 +38,7 @@ public class RobotContainer {
   public final SwerveRotaters SWERVEROTATERS = new SwerveRotaters();
   public final Gyro GYRO = new Gyro();
     //Mechanism Subs
-  public final Sheeesh SHEEESH = new Sheeesh();
+  //public final Sheeesh SHEEESH = new Sheeesh();
   public final RollerIntake ROLLERINTAKE = new RollerIntake();
   public final Shooter YEETER = new Shooter();
 

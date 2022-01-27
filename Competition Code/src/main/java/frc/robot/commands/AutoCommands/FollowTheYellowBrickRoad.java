@@ -5,6 +5,7 @@
 package frc.robot.commands.AutoCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 public class FollowTheYellowBrickRoad extends CommandBase {
@@ -13,6 +14,7 @@ public class FollowTheYellowBrickRoad extends CommandBase {
   private WPI_TalonFX RFMotor;
   private WPI_TalonFX LBMotor;
   private WPI_TalonFX RBMotor;
+  private ColorSensing c1;
   
   public FollowTheYellowBrickRoad() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -29,26 +31,26 @@ public class FollowTheYellowBrickRoad extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (distanceFromLine == 0.5)
+    if (c1.getDistanceFromLine() == 0.5)
     {
-      LFMotor.setSpeed(1);
-      RFMotor.setSpeed(1);
-      LBMotor.setSpeed(1);
-      RBMotor.setSpeed(1);
+      LFMotor.set(1);
+      RFMotor.set(1);
+      LBMotor.set(1);
+      RBMotor.set(1);
     }
-    else if (distanceFromLine == 0.0)
+    else if (c1.getDistanceFromLine() == 0.0)
     {
-      LFMotor.setSpeed(1);
-      RFMotor.setSpeed(0.5);
-      LBMotor.setSpeed(1);
-      RBMotor.setSpeed(0.5);
+      LFMotor.set(1);
+      RFMotor.set(0.5);
+      LBMotor.set(1);
+      RBMotor.set(0.5);
     }
-    else if (distanceFromLine == 1.0)
+    else if (c1.getDistanceFromLine() == 1.0)
     {
-      LFMotor.setSpeed(0.5);
-      RFMotor.setSpeed(1);
-      LBMotor.setSpeed(0.5);
-      RBMotor.setSpeed(1);
+      LFMotor.set(0.5);
+      RFMotor.set(1);
+      LBMotor.set(0.5);
+      RBMotor.set(1);
     }
     
 
