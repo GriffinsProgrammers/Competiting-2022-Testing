@@ -10,18 +10,14 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 public class FollowTheYellowBrickRoad extends CommandBase {
   /** Creates a new FollowTheYellowBrickRoad. */
-  private WPI_TalonFX LFMotor;
-  private WPI_TalonFX RFMotor;
-  private WPI_TalonFX LBMotor;
-  private WPI_TalonFX RBMotor;
   private ColorSensing c1;
+  private SwerveSpinners swerve;
   
-  public FollowTheYellowBrickRoad() {
+  public FollowTheYellowBrickRoad(SwerveSpinners swerve, ColorSensing c1) {
     // Use addRequirements() here to declare subsystem dependencies.
-    LFMotor = new WPI_TalonFX(1);
-    RFMotor = new WPI_TalonFX(2);
-    LBMotor = new WPI_TalonFX(3);
-    RBMotor = new WPI_TalonFX(4);
+    addRequirements(swerve);
+    this.swerve = swerve;
+    this.c1 = c1;
   }
 
   // Called when the command is initially scheduled.
@@ -33,17 +29,11 @@ public class FollowTheYellowBrickRoad extends CommandBase {
   public void execute() {
     if (c1.getDistanceFromLine() == 0.5)
     {
-      LFMotor.set(0.5);
-      RFMotor.set(1);
-      LBMotor.set(0.5);
-      RBMotor.set(1);
+      swerve.tankSwerve(0.5, 1);
     }
     else if (c1.getDistanceFromLine() == 0.0)
     {
-      LFMotor.set(1);
-      RFMotor.set(0.5);
-      LBMotor.set(1);
-      RBMotor.set(0.5);
+      swerve.tankSwerve(1, 0.5);
     }
     
 

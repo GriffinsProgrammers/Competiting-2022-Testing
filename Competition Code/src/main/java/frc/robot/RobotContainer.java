@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 //import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
+import frc.robot.commands.AutoCommands.FollowTheYellowBrickRoad;
 import frc.robot.subsystems.*;
 //import frc.robot.commands.*;
 //import frc.robot.triggers.*;
@@ -37,6 +38,7 @@ public class RobotContainer {
   public final SwerveSpinners SWERVESPINNERS = new SwerveSpinners();
   public final SwerveRotaters SWERVEROTATERS = new SwerveRotaters();
   public final Gyro GYRO = new Gyro();
+  public final ColorSensing COLORSENSOR = new ColorSensing();
     //Mechanism Subs
   //public final Sheeesh SHEEESH = new Sheeesh();
   public final RollerIntake ROLLERINTAKE = new RollerIntake();
@@ -52,6 +54,7 @@ public class RobotContainer {
   public final Command intakeCommand = new IntakeCommand(ROLLERINTAKE);
   public final Command outtakeCommand = new OuttakeCommand(ROLLERINTAKE);
   public final Command shootCommand = new ShootCommand(YEETER);
+  public final Command followTheYellowBrickRoad = new FollowTheYellowBrickRoad(SWERVESPINNERS, COLORSENSOR);
   
   
   public RobotContainer() {
@@ -88,9 +91,12 @@ public class RobotContainer {
         GYRO
     ));
 
+  //Intake button used for colour sensor
+  intakeButton.whenPressed(followTheYellowBrickRoad);
+
     //Intake
-    intakeButton.whileHeld(new IntakeCommand(ROLLERINTAKE));
-    outtakeButton.whileHeld(new OuttakeCommand(ROLLERINTAKE));
+    /*intakeButton.whileHeld(new IntakeCommand(ROLLERINTAKE));
+    outtakeButton.whileHeld(new OuttakeCommand(ROLLERINTAKE));*/
 
     //Shooter
     shootButton.whenPressed(new ShootCommand(YEETER));

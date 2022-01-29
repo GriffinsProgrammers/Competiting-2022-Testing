@@ -111,6 +111,13 @@ public class SwerveSpinners extends SubsystemBase {
     else swerveSwitch = true;
   }
 
+  public void tankSwerve(double leftMotors, double rightMotors) {
+    bRMotor.set(ControlMode.Velocity, rightMotors);
+    fRMotor.set(ControlMode.Velocity, rightMotors);
+    bLMotor.set(ControlMode.Velocity, leftMotors);
+    fLMotor.set(ControlMode.Velocity, leftMotors);
+  }
+
   //This function is the default command for the swervedrive motor spinners.
   public void spinMotors(double horizontal, double vertical, double rotationHorizontal, double angle){
     //This -1 is due to how the vertical axis works on the controller. 

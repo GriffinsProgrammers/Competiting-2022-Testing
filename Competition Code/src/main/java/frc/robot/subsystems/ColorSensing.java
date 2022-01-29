@@ -36,8 +36,8 @@ public class ColorSensing extends TimedRobot {
   private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
   private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
-  private final Color kCorrectColor = ColorMatch.makeColor(0.000,0.000,0.000);
-  private final Color kLeftColor = ColorMatch.makeColor(0.000,0.000,0.000);
+  private final Color kCorrectColor = ColorMatch.makeColor(0.027,0.380,0.702);
+  private final Color kLeftColor = ColorMatch.makeColor(0.424,0.529,0.639);
   private final Color kRightColor = ColorMatch.makeColor(0.000,0.000,0.000);
   double distanceFromLine;
 
