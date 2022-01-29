@@ -31,7 +31,7 @@ public class FollowTheYellowBrickRoad extends CommandBase {
     {
       swerve.tankSwerve(0.5, 1);
     }
-    else if (c1.getDistanceFromLine() == 0.0)
+    else
     {
       swerve.tankSwerve(1, 0.5);
     }
